@@ -1,0 +1,43 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+input_image_path = r"C:\Users\annie\OneDrive - University of Leeds\Final Year\Team project\Image processing\empty_dish.jpg"
+output_image_path = r"C:\Users\annie\OneDrive - University of Leeds\Final Year\Team project\Image processing\empty_dish_processed.jpg"
+
+# Load the image
+img = cv2.imread(input_image_path, cv2.IMREAD_GRAYSCALE)
+plt.figure(figsize=(6,6))
+plt.imshow(img, cmap='gray')
+plt.title('Original Image')
+plt.show()
+
+# Apply adaptive thresholding
+adaptive_thresh = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+plt.figure(figsize=(6,6))
+plt.imshow(adaptive_thresh, cmap='gray')
+plt.title('Adaptive Threshold Image')
+plt.show()
+
+# Blur the image
+img_blur = cv2.medianBlur(adaptive_thresh, 5)
+plt.figure(figsize=(6,6))
+plt.imshow(img_blur, cmap='gray')
+plt.title('Blurred Image')
+plt.show()
+
+# Apply Hough transform on the image
+circles = cv2.HoughCircles(img_blur, cv2.HOUGH_GRADIENT, 1, img.shape[0]/64, param1=200, param2=10, minRadius=200, maxRadius=500)
+
+if circles is not None:
+    circles = np.uint16(np.around(circles))
+    # Find the largest circle.
+    max_circle = max(circles[0, :], key=lambda x: x[2])
+    # Draw the largest circle
+    cv2.circle(img, (max_circle[0], max_circle[1]), max_circle[2], (0, 255, 0), 2)
+    cv2.circle(img, (max_circle[0], max_circle[1]), 2, (0, 0, 255), 3)
+
+plt.figure(figsize=(6,6))
+plt.imshow(img, cmap='gray')
+plt.title('Detected Circle')
+plt.show()
