@@ -1,4 +1,4 @@
-# Team Project 115 - Plate Analysis Sub-Group\
+# Team Project 115 - Plate Analysis Sub-Group
 Repo for our approaches to plate analysis for determining the Minimum Inhibitory Concentration.\
 Approach 1 - Traditional Image Processing: Annie\
 Approach 2 - Machine Learning: Chloe\
