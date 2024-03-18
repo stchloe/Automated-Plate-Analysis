@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 # Read the image
 img = cv.imread(r'C:\TeamProject\Automated-Plate-Analysis\DataCleaning\SampleImage001.jpg')
 assert img is not None, "file could not be read, check with os.path.exists()"
-rsz_img = cv.resize(img, None, fx=0.25, fy=0.25)
 
 # Convert BGR to RGB
 img_rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
@@ -20,16 +19,17 @@ sobel_kernel_y = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
 # Sharpen the image
 sharpened_image = cv.filter2D(grey, -1, sobel_kernel_x, sobel_kernel_y)
 
-# Detect circles
-circles = cv.HoughCircles(sharpened_image, cv.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=0, maxRadius=0)
+# Apply Canny edge detection
+edges = cv.Canny(sharpened_image, threshold1=150, threshold2=200)
 
-circles = np.uint16(np.around(circles))
-for i in circles[0, :]:
-    # draw the outer circle
-    cv.circle(sharpened_image, (i[0], i[1]), i[2], (0, 255, 0), 2)
-    # draw the center of the circle
-    cv.circle(sharpened_image, (i[0], i[1]), 2, (0, 0, 255), 3)
+# Find contours
+contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
-cv.imshow('detected circles', sharpened_image)
-cv.waitKey(0)
-cv.destroyAllWindows()
+# Draw contours on the original image
+cv.drawContours(img_rgb, contours, -1, (0, 255, 0), 3)
+
+plt.subplot(121), plt.imshow(img_rgb), plt.title('Original')
+plt.xticks([]), plt.yticks([])
+plt.subplot(122), plt.imshow(sharpened_image, cmap='gray'), plt.title('Grayscale')
+plt.xticks([]), plt.yticks([])
+plt.show()
