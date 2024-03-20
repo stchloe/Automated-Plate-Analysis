@@ -1,35 +1,38 @@
-import cv2 as cv
+import os
+import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 
-# Read the image
-img = cv.imread(r'C:\TeamProject\Automated-Plate-Analysis\DataCleaning\SampleImage001.jpg')
-assert img is not None, "file could not be read, check with os.path.exists()"
+# Path to the folder containing the input images
+input_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\RawImages\Clindamycin"
 
-# Convert BGR to RGB
-img_rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+# Path to the folder where the standardized images will be saved
+output_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\CleanImages\Clindamycin"
 
-# Convert to grayscale
-grey = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+# Iterate through all files in the input folder
+for filename in os.listdir(input_folder):
+    # Read image
+    img_path = os.path.join(input_folder, filename)
+    img = cv2.imread(img_path, cv2.IMREAD_REDUCED_GRAYSCALE_8)
 
-# Create the sharpening kernel
-sobel_kernel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-sobel_kernel_y = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
+    # Apply thresholding to convert to binary
+    ret, thresh = cv2.threshold(img, 55, 255, 0)
 
-# Sharpen the image
-sharpened_image = cv.filter2D(grey, -1, sobel_kernel_x, sobel_kernel_y)
+    # Apply Canny edge detection
+    edges = cv2.Canny(thresh, threshold1=150, threshold2=200)
 
-# Apply Canny edge detection
-edges = cv.Canny(sharpened_image, threshold1=150, threshold2=200)
+    # find the non-zero min-max coordinates of canny
+    pts = np.argwhere(edges > 0)
+    y1, x1 = pts.min(axis=0)
+    y2, x2 = pts.max(axis=0)
 
-# Find contours
-contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    # crop the region
+    cropped = edges[y1:y2, x1:x2]
 
-# Draw contours on the original image
-cv.drawContours(img_rgb, contours, -1, (0, 255, 0), 3)
+    # Find contours
+    contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-plt.subplot(121), plt.imshow(img_rgb), plt.title('Original')
-plt.xticks([]), plt.yticks([])
-plt.subplot(122), plt.imshow(sharpened_image, cmap='gray'), plt.title('Grayscale')
-plt.xticks([]), plt.yticks([])
-plt.show()
+    # Save the standardized image to the output folder
+    output_path = os.path.join(output_folder, filename)
+    cv2.imwrite(output_path, cropped)  # Adjust 'cropped' if needed
+
+print("Standardization complete. Standardized images saved to", output_folder)
