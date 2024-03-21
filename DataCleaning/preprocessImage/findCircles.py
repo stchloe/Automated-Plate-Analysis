@@ -4,10 +4,7 @@ from matplotlib import pyplot as plt
 
 # Read image
 img = cv2.imread(r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\met0_125.jpg",
-                 cv2.IMREAD_REDUCED_GRAYSCALE_4)
-
-# Convert BGR to RGB
-img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+                 cv2.IMREAD_REDUCED_GRAYSCALE_8)
 
 # Apply thresholding to convert to binary
 ret, thresh = cv2.threshold(img, 70, 255, 0)
@@ -28,14 +25,14 @@ cv2.imwrite("cropped.png", cropped)
 contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 # Draw contours on the original image
-cv2.drawContours(img_rgb, contours, -1, (0, 255, 0), 3)
+cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
 
 # Draw rectangle around original image
-tagged = cv2.rectangle(img_rgb.copy(), (x1, y1), (x2, y2), (255, 0, 0), 3, cv2.LINE_AA)
+tagged = cv2.rectangle(img.copy(), (x1, y1), (x2, y2), (255, 0, 0), 3, cv2.LINE_AA)
 cv2.imshow("tagged", tagged)
 cv2.waitKey()
 
-plt.subplot(121), plt.imshow(tagged ), plt.title('Greyscale Image with Bounding Box and Contours')
+plt.subplot(121), plt.imshow(tagged), plt.title('Greyscale Image with Bounding Box and Contours')
 plt.xticks([]), plt.yticks([])
 plt.subplot(122), plt.imshow(cropped, cmap='gray'), plt.title('Binary Cropped Image')
 plt.xticks([]), plt.yticks([])
