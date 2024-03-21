@@ -2,6 +2,7 @@ import os
 import cv2
 from cropImage import crop_image
 from maskImage import mask_circle
+from detectBlobs import detect_and_draw_circles
 
 # Path to the folder containing the input images
 input_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\RawImages\Clindamycin"
@@ -26,6 +27,9 @@ for filename in os.listdir(input_folder):
 
     # Save the standardised image to the output folder
     output_path = os.path.join(output_folder, filename)
-    cv2.imwrite(output_path, cropped_circle)  # Adjust 'cropped' if needed
+    cv2.imwrite(output_path, cropped_circle)
+
+    # Read in standardised, cropped, masked image into detectBlobs function
+    detect_blobs = detect_and_draw_circles(output_path)
 
 print("Standardization complete. Standardized images saved to", output_folder)
