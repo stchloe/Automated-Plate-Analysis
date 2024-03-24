@@ -4,13 +4,10 @@ from cropImage import crop_image
 from maskImage import mask_circle
 
 # Path to the folder containing the input images
-input_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\RawImages\Clindamycin"
+input_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\RawImages\Vancomycin"
 
 # Path to the folder where the standardized and compressed images will be saved
-output_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\CleanImages\Clindamycin"
-
-# Rectangle coordinates for image segmentation
-rectangles = r"C:\TeamProject\Automated-Plate-Analysis\PlateImages\Results\PlateMap_Coordinates.txt"
+output_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\CleanImages\Vancomycin"
 
 # Target size in bytes
 target_size_bytes = 205 * 1024

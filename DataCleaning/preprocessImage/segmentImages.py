@@ -18,7 +18,7 @@ original_image = Image.open(original_image_path)
 original_image_size = original_image.size
 
 # Load the image to be segmented to get its size
-segmented_image_path = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\CleanImages\Clindamycin\Clind64.jpg"
+segmented_image_path = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\CleanImages\Metronidazole\Met32.jpg"
 segmented_image = Image.open(segmented_image_path)
 segmented_image_size = segmented_image.size
 
@@ -28,20 +28,20 @@ scale_factor_y = segmented_image_size[1] / original_image_size[1]
 
 # Define the coordinates of the rectangles obtained from the original image - in correct order
 original_coordinates = [
-    (501, 225, 135, 135), (706, 190, 140, 140), (974, 228, 132, 132),
-    (1150, 180, 128, 138), (385, 360, 136, 136), (635, 375, 136, 136),
-    (869, 401, 126, 126), (1035, 395, 140, 140), (1200, 420, 148, 148),
-    (256, 525, 140, 140), (460, 545, 140, 140), (738, 566, 138, 148),
-    (965, 561, 124, 134), (1221, 571, 128, 138), (1460, 542, 118, 128),
-    (99, 713, 136, 146), (325, 767, 136, 146), (596, 740, 138, 148),
-    (844, 746, 118, 128), (1085, 747, 132, 142), (1322, 734, 138, 148),
-    (1504, 760, 138, 148), (320, 1150, 138, 148), (560, 1150, 134, 144),
-    (870, 1172, 138, 148), (1112, 1178, 126, 136), (1334, 1146, 138, 148)
+    (520, 210, 135, 135), (785, 200, 140, 140), (980, 190, 132, 132),
+    (1180, 190, 138, 138), (360, 370, 136, 136), (605, 350, 136, 136),
+    (875, 350, 126, 126), (1095, 385, 140, 140), (1280, 350, 148, 148),
+    (220, 525, 140, 140), (480, 570, 140, 140), (720, 540, 148, 148),
+    (975, 540, 124, 134), (1195, 550, 128, 138), (1430, 545, 118, 128),
+    (95, 730, 146, 146), (350, 740, 136, 146), (570, 750, 138, 148),
+    (860, 770, 118, 118), (1090, 740, 142, 142), (1330, 745, 148, 148),
+    (1545, 740, 148, 148), (290, 1200, 148, 148), (530, 1210, 144, 144),
+    (840, 1140, 138, 148), (1160, 1090, 136, 136), (1410, 1080, 148, 148)
 ]
 
 # Define the offset values to move the coordinates
-X_OFFSET = 0  # Adjust this value as needed
-Y_OFFSET = 0  # Adjust this value as needed
+X_OFFSET = 20  # Adjust this value as needed
+Y_OFFSET = -30  # Adjust this value as needed
 
 # Scale the coordinates based on the scaling factors
 scaled_coordinates = scale_coordinates(original_coordinates, scale_factor_x)
@@ -59,7 +59,7 @@ for rect in scaled_coordinates:
 display_image.show()
 
 # Crop and save each rectangle to the output folder without red borders
-output_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\CleanImages\Clindamycin\Clind64_Strains"
+output_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\CleanImages\Metronidazole\Met32_Strains"
 os.makedirs(output_folder, exist_ok=True)
 
 for i, rect in enumerate(scaled_coordinates):

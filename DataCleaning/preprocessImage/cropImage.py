@@ -6,7 +6,7 @@ def crop_image(img):
     grey = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
     # Define the kernel size for Gaussian blur (should be odd)
-    kernel_size = (201, 201)  # Adjust kernel size as needed
+    kernel_size = (101, 101)  # Adjust kernel size as needed
 
     # Apply Gaussian blur - needed to crop to exact petri dish size
     blurred_image = cv2.GaussianBlur(grey, kernel_size, 0)
