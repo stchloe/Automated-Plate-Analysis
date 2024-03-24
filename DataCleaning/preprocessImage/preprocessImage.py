@@ -9,6 +9,9 @@ input_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\RawImages\
 # Path to the folder where the standardized and compressed images will be saved
 output_folder = r"C:\TeamProject\Automated-Plate-Analysis\DataCleaning\CleanImages\Clindamycin"
 
+# Rectangle coordinates for image segmentation
+rectangles = r"C:\TeamProject\Automated-Plate-Analysis\PlateImages\Results\PlateMap_Coordinates.txt"
+
 # Target size in bytes
 target_size_bytes = 205 * 1024
 

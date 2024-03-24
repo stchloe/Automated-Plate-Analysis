@@ -1,6 +1,6 @@
 import cv2
-import numpy as np
-# Define the function to compress images
+
+
 def resize_image_to_target_size(img, target_size_kb):
     # Calculate the target size in bytes
     target_size_bytes = target_size_kb * 1024
