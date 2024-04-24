@@ -66,3 +66,4 @@ for i, rect in enumerate(scaled_coordinates):
     x, y, w, h = rect
     cropped_image = segmented_image.crop((x, y, x + w, y + h))
     cropped_image.save(os.path.join(output_folder, f"Strain_{i + 1}.jpg"))
+

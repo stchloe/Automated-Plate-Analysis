@@ -9,13 +9,14 @@ class DataCollectionApp:
     def __init__(self, master):
         self.master = master
         self.master.title("Data Collection App")
-        
-        self.label_concentration = Label(master, text="Concentration:")
+
+        # Create GUI to input antibiotic and concentration
+        self.label_concentration = Label(master, text="Antibiotic:")
         self.label_concentration.grid(row=0, column=0, padx=10, pady=10)
         self.entry_concentration = Entry(master)
         self.entry_concentration.grid(row=0, column=1, padx=10, pady=10)
-        
-        self.label_result = Label(master, text="Result:")
+
+        self.label_result = Label(master, text="Concentration:")
         self.label_result.grid(row=1, column=0, padx=10, pady=10)
         self.entry_result = Entry(master)
         self.entry_result.grid(row=1, column=1, padx=10, pady=10)
@@ -26,7 +27,7 @@ class DataCollectionApp:
         # Open a CSV file for recording details
         self.csv_file = open("training_data.csv", mode="w", newline="")
         self.csv_writer = csv.writer(self.csv_file)
-        self.csv_writer.writerow(["Image Name", "Concentration", "Result"])
+        self.csv_writer.writerow(["Image Name", "Antibiotic", "Concentration"])
 
         # Create the Picamera2 instance
         self.picam2 = Picamera2()
@@ -42,7 +43,7 @@ class DataCollectionApp:
         self.image_folder = "PlateImages"
         
         # Create unique image name based on concentration & result
-        image_name = f"{concentration}_{result}.jpg"
+        image_name = f"{antibiotic}_{concentration}.jpg"
         
         # Combine with subfolder path
         image_path = os.path.join(self.image_folder, image_name)
@@ -70,3 +71,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = DataCollectionApp(root)
     root.mainloop()
+
+    
